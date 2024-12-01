@@ -13,8 +13,6 @@
     <div class="sidebar">
         <h3>GuardStick</h3>
         <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Dashboard</a>
-        <a href="{{ url_for('system_status_page') }}" {% if request.endpoint == 'system_status_page' %}class="active"{% endif %}>System Status</a>
-        <a href="{{ url_for('log_analysis_page') }}" {% if request.endpoint == 'log_analysis_page' %}class="active"{% endif %}>Log Analysis</a>
         <a href="{{ url_for('llm_analysis_page') }}" {% if request.endpoint == 'llm_analysis_page' %}class="active"{% endif %}>LLM Analysis</a>
         <a href="{{ url_for('guide') }}" {% if request.endpoint == 'guide' %}class="active"{% endif %}>Guide</a>
     </div>
