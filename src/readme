@@ -135,7 +135,7 @@ echo $VIRTUAL_ENV  # Should show path to src/env/guardstick
 
 2. Start the application:
 ```bash
-python src/app/app.py
+sudo python src/app/app.py
 ```
 
 3. Access the web interface:
