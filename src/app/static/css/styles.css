@@ -1,0 +1,825 @@
+/* ===========================================
+   GLOBAL VARIABLES & THEME SETTINGS
+   Used across all pages
+=========================================== */
+:root {
+    /* Color Palette */
+    --background: #F5F7FA;
+    --card-bg: #FFFFFF;
+    --sidebar-bg: #1F2937;
+    --sidebar-text: #D1D5DB;
+    --text: #2E3A59;
+    --text-secondary: #7B8794;
+    --accent: #3B82F6;
+    --accent-hover: #2563EB;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --border: rgba(0, 0, 0, 0.1);
+}
+
+/* ===========================================
+   GLOBAL BASE STYLES
+   Applied to all pages
+=========================================== */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 20px;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.footer {
+    padding: 10px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    text-align: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* ===========================================
+   LAYOUT COMPONENTS
+   Sidebar and main container structure
+   base.html
+=========================================== */
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 0.2rem;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Sticky positioning ensures it extends with content */
+    top: 0; /* Keep it pinned to the top while scrolling */
+    min-height: 100vh; /* Ensures it always covers the full viewport height */
+}
+
+
+.sidebar h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a.active {
+    background-color: #374151;
+    color: white;
+}
+
+/* Main Container */
+.container {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 10vh; /* Add dynamic bottom padding based on viewport height */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+/* ===========================================
+   COMMON COMPONENTS
+   Reusable across multiple pages
+=========================================== */
+/* Header Styles */
+.header {
+    text-align: center;
+}
+
+.header .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.header .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Card and Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.card.full-width {
+    grid-column: span 2;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+}
+
+.card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.card:hover h3::after {
+    transform: scaleX(1);
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+/* Button Styles */
+.button {
+    padding: 12px 15px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--accent-hover);
+}
+
+.button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.button.secondary {
+    background-color: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.button.secondary:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* Button State Animations */
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.button.running {
+    background: linear-gradient(90deg, var(--warning), #fcd34d, var(--warning));
+    background-size: 200% 100%;
+    animation: gradientAnimation 2s ease infinite;
+    color: white;
+    border: none;
+}
+
+.button.completed {
+    background-color: var(--success);
+    color: white;
+    border: none;
+}
+
+.button.failed {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+/* Status Messages */
+.status-message {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: white;
+}
+
+.status-message pre {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+}
+
+.status-running { background-color: var(--warning); }
+.status-success { background-color: var(--success); }
+.status-error { background-color: var(--danger); }
+
+/* Progress Indicators */
+.progress-bar {
+    background-color: var(--border);
+    border-radius: 8px;
+    height: 10px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar .progress {
+    background-color: var(--accent);
+    width: 0%;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+/* ===========================================
+   SECURITY TASKS PAGE
+   security-tasks.html specific styles
+=========================================== */
+.security-tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Ensure exactly 4 cards per row */
+    gap: 30px; /* Space between cards */
+    margin-bottom: 250px;
+    margin-top: 20px; /* Add spacing above the cards */
+    justify-content: center; /* Center the grid content */
+    padding: 10px;
+}
+
+.security-task-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px; /* Reduced padding inside cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.security-task-card:hover {
+    transform: translateY(-3px); /* Slight upward motion on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+.security-task-card h3 {
+    position: relative;
+    font-size: 1.1rem; /* Slightly smaller title font size */
+    font-weight: 600;
+    margin-bottom: 10px; /* Reduce spacing below the title */
+    color: var(--text);
+    overflow: hidden;
+}
+
+.security-task-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.security-task-card:hover h3::after {
+    transform: scaleX(1);
+}
+
+.security-task-card .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Adjust spacing between buttons */
+    width: 100%;
+    align-items: center;
+}
+
+.security-task-card .button-group button {
+    width: 90%; /* Adjust button width */
+    padding: 8px 10px; /* Smaller button padding */
+    font-size: 0.85rem; /* Smaller font size for buttons */
+    border-radius: 8px;
+    background-color: var(--card-bg); /* Match button background to card */
+    color: var(--text); /* Text color matches the theme */
+    border: 1px solid black; /* Add a simple black outline */
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    text-align: center;
+    box-shadow: none; /* Remove additional shadows for simplicity */
+}
+
+.security-task-card .button-group button:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* Light gray background on hover */
+    transform: translateY(-1px); /* Slight upward motion on hover */
+}
+
+.security-task-card .button-group button:active {
+    transform: translateY(0); /* Reset motion on click */
+    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background on click */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .security-tasks-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .security-tasks-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .security-tasks-grid {
+        grid-template-columns: 1fr; /* 1 card per row for very small screens */
+    }
+}
+
+
+
+/* ===========================================
+   SYSTEM STATUS PAGE
+   system-status.html specific styles
+=========================================== */
+#system-status-summary,
+#sip-status,
+#firewall-status-overview,
+#filevault-status {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#recent-scan-results li {
+    margin-bottom: 0.5rem;
+}
+
+#active-network-connections,
+#cpu-memory-usage {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Metric and Progress Bar Styles */
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* ===========================================
+   LLM ANALYSIS PAGE
+   llm-analysis.html specific styles
+=========================================== */
+
+/* Main Container & Layout */
+.llm-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Log Selection Section */
+.log-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    background-color: var(--card-bg);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.log-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s ease;
+}
+
+.log-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.log-item:last-child {
+    border-bottom: none;
+}
+
+.log-item input[type="checkbox"] {
+    margin-right: 12px;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.log-label {
+    flex: 1;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: var(--text);
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.button {
+    width: auto;
+    min-width: 120px;
+    max-width: 200px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+/* Question Input Area */
+.question-section {
+    margin-top: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--card-bg);
+}
+
+.input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Progress and Status Display */
+.status-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.processing-steps {
+    margin: 15px 0;
+    border-left: 3px solid var(--border);
+    padding-left: 20px;
+}
+
+.current-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    animation: pulse 2s infinite;
+}
+
+.step-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    margin-right: 12px;
+    position: relative;
+    left: -27px;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.completed-step .step-indicator {
+    background-color: var(--success);
+    box-shadow: none;
+}
+
+.step-content {
+    flex: 1;
+    margin-left: -20px;
+}
+
+.step-label {
+    font-weight: 600;
+    color: var(--text);
+    margin-right: 8px;
+}
+
+.step-value {
+    color: var(--text-secondary);
+}
+
+/* Progress Bar */
+.progress-container {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    background-color: var(--border);
+    border-radius: 12px;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.progress-bar .progress {
+    background: linear-gradient(90deg, 
+        var(--accent), 
+        var(--accent-hover)
+    );
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Analysis Results */
+.results-container {
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results-header {
+    padding: 15px 20px;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.response-text {
+    background-color: var(--card-bg);
+    padding: 20px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    font-size: 0.95em;
+}
+
+/* Metadata Display */
+.metadata-container {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid var(--border);
+    padding: 15px 20px;
+}
+
+.metadata-content {
+    font-family: monospace;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* Error States */
+.error-message {
+    color: var(--danger);
+    font-size: 0.9rem;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: rgba(239, 68, 68, 0.1);
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Stats Display */
+.stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-5px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .status-container {
+        padding: 15px;
+    }
+}
+
+
+/* ===========================================
+   DASHBOARD COMPONENTS
+   index.html specific styles
+=========================================== */
+/* Dashboard action buttons */
+.card .button {
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-top: auto;
+    overflow: hidden;
+}
+
+.card .button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* ===========================================
+   RESPONSIVE ADJUSTMENTS
+   Media queries for different screen sizes
+=========================================== */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card.full-width {
+        grid-column: auto;
+    }
+    
+    .sidebar {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        height: auto;
+        flex-direction: row;
+        padding: 10px;
+    }
+    
+    .container {
+        margin-bottom: 60px;
+    }
+}
+
+.footer {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    position: relative; /* Change to fixed if needed */
+    width: 100%;
+    margin-top: auto; /* Push footer to the bottom of the content */
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

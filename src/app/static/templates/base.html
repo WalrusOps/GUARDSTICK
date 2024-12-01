@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GuardStick Security{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>GuardStick</h3>
+        <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Dashboard</a>
+        <a href="{{ url_for('system_status_page') }}" {% if request.endpoint == 'system_status_page' %}class="active"{% endif %}>System Status</a>
+        <a href="{{ url_for('log_analysis_page') }}" {% if request.endpoint == 'log_analysis_page' %}class="active"{% endif %}>Log Analysis</a>
+        <a href="{{ url_for('llm_analysis_page') }}" {% if request.endpoint == 'llm_analysis_page' %}class="active"{% endif %}>LLM Analysis</a>
+        <a href="{{ url_for('guide') }}" {% if request.endpoint == 'guide' %}class="active"{% endif %}>Guide</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div>
+                <h1 class="logo">{% block page_title %}Welcome to GuardStick{% endblock %}</h1>
+                <p class="subtitle">{% block subtitle %}Your Security Companion{% endblock %}</p>
+            </div>
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle" aria-label="Toggle Theme">Toggle Theme</button>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            {% block content %}
+            <!-- Page-specific content will go here -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Additional Scripts -->
+    {% block extra_js %}
+    <!-- Page-specific scripts can be added here -->
+    {% endblock %}
+    
+    <!-- Main JavaScript File -->
+    <script type="module" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}GuardStick - System Status{% endblock %}
+
+{% block page_title %}System Status{% endblock %}
+{% block subtitle %}Real-time System Monitoring{% endblock %}
+
+{% block content %}
+<div class="grid">
+    <div class="card">
+        <h3>CPU Usage</h3>
+        <p id="cpu-usage">Loading...</p>
+    </div>
+    
+    <div class="card">
+        <h3>Memory Usage</h3>
+        <p id="memory-usage">Loading...</p>
+    </div>
+    
+    <div class="card">
+        <h3>Disk Usage</h3>
+        <p id="disk-usage">Loading...</p>
+    </div>
+    
+    <div class="card">
+        <h3>System Uptime</h3>
+        <p id="uptime">Loading...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateSystemStatus() {
+    fetch('/api/system-status')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('cpu-usage').textContent = data.system_info.cpu_usage;
+                document.getElementById('memory-usage').textContent = data.system_info.memory_usage;
+                document.getElementById('disk-usage').textContent = data.system_info.disk_usage;
+                document.getElementById('uptime').textContent = data.system_info.uptime;
+            }
+        });
+}
+
+// Update status every 5 seconds
+updateSystemStatus();
+setInterval(updateSystemStatus, 5000);
+</script>
+{% endblock %}

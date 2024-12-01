@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardStick Documentation</title>
+    <style>
+        
+        /* Modern documentation styling */
+        :root {
+            /* Color Palette */
+            --background: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --sidebar-bg: #1F2937;
+            --sidebar-text: #D1D5DB;
+            --text: #2E3A59;
+            --text-secondary: #7B8794;
+            --accent: #3B82F6;
+            --accent-hover: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: sticky;
+            top: 0;
+            min-height: 100vh;
+        }
+
+        .sidebar h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: var(--sidebar-text);
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar a.active {
+            background-color: #374151;
+            color: white;
+        }
+        /* Main Content Styling */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 3rem;
+            max-width: calc(100% - var(--sidebar-width));
+            width: 100%;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            background: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.25rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#features">Key Features</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#components">System Components</a></li>
+            <li><a href="#usage">Using GuardStick</a></li>
+            <li><a href="#api-reference">API Reference</a></li>
+            <li><a href="#security">Security Features</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="content">
+            <h1 id="overview">GuardStick Security Monitoring System</h1>
+            
+            <p>GuardStick is a comprehensive security monitoring and analysis system that combines real-time system monitoring, automated security tasks, and AI-powered analysis to protect your system.</p>
+
+            <h2 id="installation">Installation</h2>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Python 3.8 or higher</li>
+                <li>16GB RAM minimum (for LLM operations)</li>
+                <li>50GB free disk space</li>
+                <li>Unix-based operating system (macOS or Linux)</li>
+            </ul>
+
+            <h3>Quick Start</h3>
+            <pre><code># Clone the repository
+git clone https://github.com/yourusername/guardstick.git
+cd guardstick
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Unix/macOS
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the application
+python src/app.py</code></pre>
+
+            <h2 id="features">Key Features</h2>
+            
+            <h3>Real-time Monitoring</h3>
+            <p>GuardStick provides continuous monitoring of:</p>
+            <ul>
+                <li>CPU usage and performance metrics</li>
+                <li>Memory utilization and management</li>
+                <li>Disk usage and storage analysis</li>
+                <li>Network connections and traffic patterns</li>
+            </ul>
+
+            <h3>Security Analysis</h3>
+            <ul>
+                <li>Automated security scans</li>
+                <li>Malware detection</li>
+                <li>System integrity verification</li>
+                <li>Firewall management</li>
+                <li>Privacy protection features</li>
+            </ul>
+
+            <h3>AI-Powered Insights</h3>
+            <p>Leveraging the Mistral-7B language model for:</p>
+            <ul>
+                <li>Log analysis and interpretation</li>
+                <li>Threat detection and assessment</li>
+                <li>Security recommendations</li>
+                <li>Pattern recognition in system behavior</li>
+            </ul>
+
+            <h2 id="getting-started">Getting Started</h2>
+            
+            <h3>Basic Configuration</h3>
+            <p>Create a .env file in your project root:</p>
+            <pre><code>FLASK_APP=src/app.py
+FLASK_ENV=development
+MODEL_PATH=/models/Mistral-7B-v0.3
+PORT=5002</code></pre>
+
+            <h3>First Run</h3>
+            <p>After installation, access the web interface at:</p>
+            <pre><code>http://localhost:5002</code></pre>
+
+            <h2 id="components">System Components</h2>
+            
+            <h3>Dashboard</h3>
+            <p>The main dashboard provides:</p>
+            <ul>
+                <li>System status overview</li>
+                <li>Real-time metrics</li>
+                <li>Recent security events</li>
+                <li>Quick action buttons</li>
+            </ul>
+
+            <h3>Security Tasks</h3>
+            <p>Automated security checks including:</p>
+            <ul>
+                <li>Malware scanning</li>
+                <li>Firewall verification</li>
+                <li>Privacy checks</li>
+                <li>System configuration analysis</li>
+            </ul>
+
+            <h2 id="usage">Using GuardStick</h2>
+            
+            <h3>Running Security Scans</h3>
+            <p>Access the Security Tasks page to:</p>
+            <ol>
+                <li>Select desired security checks</li>
+                <li>Configure scan parameters</li>
+                <li>Execute scans</li>
+                <li>View and export results</li>
+            </ol>
+
+            <h3>Log Analysis</h3>
+            <p>Use the Log Analysis feature to:</p>
+            <ul>
+                <li>View system and security logs</li>
+                <li>Filter and search log entries</li>
+                <li>Export log reports</li>
+                <li>Analyze patterns and anomalies</li>
+            </ul>
+
+            <h2 id="api-reference">API Reference</h2>
+            
+            <h3>System Status Endpoints</h3>
+            <pre><code>GET /api/system-status
+GET /api/check-firewall
+GET /api/service-status</code></pre>
+
+            <h3>Security Endpoints</h3>
+            <pre><code>POST /api/execute
+GET /api/security-events</code></pre>
+
+            <h3>Analysis Endpoints</h3>
+            <pre><code>POST /api/analyze_llm
+GET /api/get-logs
+POST /api/logs/delete
+GET /api/logs/download/{filename}</code></pre>
+
+            <h2 id="security">Security Features</h2>
+            
+            <h3>System Protection</h3>
+            <ul>
+                <li>SIP (System Integrity Protection) monitoring</li>
+                <li>Firewall management</li>
+                <li>FileVault encryption status</li>
+                <li>Application verification</li>
+            </ul>
+
+            <h3>Network Security</h3>
+            <ul>
+                <li>Connection monitoring</li>
+                <li>Port scanning</li>
+                <li>Traffic analysis</li>
+                <li>Suspicious activity detection</li>
+            </ul>
+
+            <h2 id="troubleshooting">Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            <ul>
+                <li>API connection errors</li>
+                <li>Model loading issues</li>
+                <li>Permission problems</li>
+                <li>Resource constraints</li>
+            </ul>
+
+            <h2 id="faq">Frequently Asked Questions</h2>
+            
+            <h3>General Questions</h3>
+            <p><strong>Q: How often should I run security scans?</strong><br>
+            A: We recommend running basic security scans daily and comprehensive scans weekly.</p>
+
+            <p><strong>Q: Can I customize security checks?</strong><br>
+            A: Yes, you can modify existing scripts or add new ones in the scripts directory.</p>
+
+            <p><strong>Q: How are logs stored?</strong><br>
+            A: Logs are stored in the data/log_reports directory with encryption for sensitive data.</p>
+
+            <h3>Technical Questions</h3>
+            <p><strong>Q: What permissions are required?</strong><br>
+            A: GuardStick needs administrator privileges for system-level operations.</p>
+
+            <p><strong>Q: Can I use a different LLM model?</strong><br>
+            A: Yes, you can modify the LLM configuration in llm_api.py to use different models.</p>
+        </div>
+    </main>
+</body>
+</html>

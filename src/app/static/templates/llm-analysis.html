@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% block title %}LLM Analysis{% endblock %}
+{% block page_title %}LLM Analysis{% endblock %}
+{% block subtitle %}Analyze Logs with MobileLLM{% endblock %}
+
+{% block content %}
+<div class="llm-container">
+    <div class="card full-width">
+        <!-- Log Selection Section -->
+        <section class="log-selection">
+            <h3>Select Logs for Analysis</h3>
+            <div id="log-selection-container">
+                <div id="log-list" class="log-list">
+                    Loading available logs...
+                </div>
+                <div class="button-group">
+                    <button onclick="selectAllLogs()" class="button secondary">Select All</button>
+                    <button onclick="deselectAllLogs()" class="button secondary">Deselect All</button>
+                </div>
+                <div id="log-count" class="text-secondary"></div>
+            </div>
+        </section>
+
+        <!-- Question Input Section -->
+        <section class="question-section">
+            <h3>Ask a Question</h3>
+            <div class="form-group">
+                <textarea 
+                    id="llm-question" 
+                    class="input-field" 
+                    rows="4" 
+                    placeholder="Enter your question about the logs... (Press Ctrl+Enter to submit)"></textarea>
+            </div>
+            <button id="submit-question" class="button">Analyze with AI</button>
+            <div id="analysis-error" class="error-message"></div>
+        </section>
+
+        <!-- LLM Status Information -->
+        <section id="llm-status" class="status-container" style="display: none;">
+            <h4>Analysis Progress</h4>
+        <!-- Step Progress -->
+            <div class="processing-steps">
+                <div id="current-step" class="current-step">
+                    <div class="step-indicator"></div>
+                    <div class="step-content">
+                        <span class="step-label">Current:</span>
+                        <span class="step-value">Initializing...</span>
+                    </div>
+                </div>
+                <div id="step-history" class="step-history">
+                    <!-- Previous steps will be added here -->
+                </div>
+            </div>
+
+            <!-- Status Details -->
+            <div class="status-details">
+                <div id="performance-stats" style="display: none;">
+                    <div class="stat-row">
+                        <span class="status-label">Device:</span>
+                        <span id="device-type" class="status-value">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="status-label">Processing Time:</span>
+                        <span id="generation-time" class="status-value">-</span>
+                    </div>
+                </div>
+
+                <div id="token-stats" style="display: none;">
+                    <div class="stat-row">
+                        <span class="status-label">Input Tokens:</span>
+                        <span id="input-tokens" class="status-value">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="status-label">Output Tokens:</span>
+                        <span id="output-tokens" class="status-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Indicator -->
+        <section id="analysis-progress" class="progress-container" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div id="progress-status">
+                Initializing analysis...
+            </div>
+        </section>
+
+        <!-- Analysis Results -->
+        <section id="analysis-results" class="results-container" style="display: none;">
+            <div class="results-header">
+                <h4>Analysis Results</h4>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="results-content">
+                <pre id="llm-response" class="response-text"></pre>
+                
+                <!-- Technical Details -->
+                <div class="metadata-container">
+                    <h5>Technical Details</h5>
+                    <div id="metadata-content" class="metadata-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module">
+    import { apiService } from '/static/js/api-service.js';
+    
+    let analysisStartTime;
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const logListContainer = document.getElementById('log-list');
+        const questionInput = document.getElementById('llm-question');
+        const submitButton = document.getElementById('submit-question');
+        const progressContainer = document.getElementById('analysis-progress');
+        const progressBar = progressContainer.querySelector('.progress');
+        const progressStatus = document.getElementById('progress-status');
+        const resultsContainer = document.getElementById('analysis-results');
+        const responseElement = document.getElementById('llm-response');
+        const llmStatus = document.getElementById('llm-status');
+        const metadataContent = document.getElementById('metadata-content');
+        const errorDiv = document.getElementById('analysis-error');
+        
+        function updateStepHistory(step) {
+            const history = document.getElementById('step-history');
+            const currentStepValue = document.querySelector('.step-value');
+            
+            if (currentStepValue.textContent !== 'Initializing...') {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'completed-step';
+                historyItem.innerHTML = `
+                    <div class="step-indicator"></div>
+                    <div class="step-content">
+                        <span class="step-value">${currentStepValue.textContent}</span>
+                    </div>
+                `;
+                history.insertBefore(historyItem, history.firstChild);
+            }
+            
+            currentStepValue.textContent = step;
+        }
+        
+        async function updateProgressStatus(status, percentage) {
+            progressStatus.textContent = status;
+            progressBar.style.width = `${percentage}%`;
+            updateStepHistory(status);
+        }
+        
+        async function submitAnalysis() {
+            const question = questionInput.value.trim();
+            const selectedLogs = Array.from(document.querySelectorAll('.log-checkbox:checked'))
+                .map(cb => cb.value);
+            
+            // Reset error state
+            errorDiv.style.display = 'none';
+            
+            if (!question || selectedLogs.length === 0) {
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = !question 
+                    ? 'Please enter a question for analysis.' 
+                    : 'Please select at least one log for analysis.';
+                return;
+            }
+
+            try {
+                submitButton.disabled = true;
+                llmStatus.style.display = 'block';
+                progressContainer.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                analysisStartTime = Date.now();
+                
+                document.getElementById('step-history').innerHTML = '';
+                
+                await updateProgressStatus('Initializing LLM model and configuration...', 5);
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                await updateProgressStatus('Verifying model parameters...', 15);
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                await updateProgressStatus('Loading selected logs...', 30);
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                await updateProgressStatus('Processing log content...', 45);
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                await updateProgressStatus('Running tokenization...', 60);
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                await updateProgressStatus('Executing LLM analysis. This might take a while, be patient.', 75);
+                const response = await apiService.analysis.analyzeLLM({
+                    question,
+                    logs: selectedLogs
+                });
+
+                await updateProgressStatus('Processing results...', 90);
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                progressContainer.style.display = 'none';
+                
+                if (response.status === 'success') {
+                    const generationTime = ((Date.now() - analysisStartTime) / 1000).toFixed(2);
+                    
+                    // Update all stats
+                    document.getElementById('device-type').textContent = response.metadata.device || 'CPU';
+                    document.getElementById('generation-time').textContent = `${generationTime}s`;
+                    document.getElementById('input-tokens').textContent = response.metadata.input_length || '0';
+                    document.getElementById('output-tokens').textContent = response.metadata.output_length || '0';
+                    
+                    // Show stats containers
+                    document.getElementById('token-stats').style.display = 'block';
+                    document.getElementById('performance-stats').style.display = 'block';
+                    
+                    // Show results
+                    resultsContainer.style.display = 'block';
+                    responseElement.textContent = response.response;
+                    
+                    // Show technical details
+                    metadataContent.innerHTML = `Model Configuration:
+• Temperature: ${response.metadata.temperature}
+• Top-p: ${response.metadata.top_p}
+• Device: ${response.metadata.device}
+• Generation Time: ${generationTime} seconds
+
+Token Usage:
+• Input Length: ${response.metadata.input_length} tokens
+• Output Length: ${response.metadata.output_length} tokens`;
+                } else {
+                    throw new Error(response.error || 'Analysis failed');
+                }
+            } catch (error) {
+                console.error('Error submitting analysis:', error);
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = error.message;
+                progressContainer.style.display = 'none';
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+
+        // Event Listeners
+        submitButton.addEventListener('click', submitAnalysis);
+        
+        questionInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                submitAnalysis();
+            }
+        });
+        
+        // Initialize by fetching logs
+        fetchLogs();
+    });
+    
+    async function fetchLogs() {
+        try {
+            const data = await apiService.analysis.getLogs();
+            const logListContainer = document.getElementById('log-list');
+            const logCount = document.getElementById('log-count');
+            
+            if (!data.logs || data.logs.length === 0) {
+                logListContainer.innerHTML = '<p>No logs available for analysis.</p>';
+                return;
+            }
+            
+            logListContainer.innerHTML = data.logs.map((log, index) => `
+                <div class="log-item">
+                    <input type="checkbox" id="log-${index}" value="${log.name}" class="log-checkbox">
+                    <label for="log-${index}" class="log-label">
+                        ${log.name} (${log.size})
+                    </label>
+                </div>
+            `).join('');
+            
+            logCount.textContent = `${data.logs.length} logs found`;
+        } catch (error) {
+            console.error('Error fetching logs:', error);
+            document.getElementById('log-list').innerHTML = '<p>Error loading logs.</p>';
+        }
+    }
+    
+    window.selectAllLogs = () => {
+        document.querySelectorAll('.log-checkbox').forEach(cb => cb.checked = true);
+    };
+    
+    window.deselectAllLogs = () => {
+        document.querySelectorAll('.log-checkbox').forEach(cb => cb.checked = false);
+    };
+</script>
+{% endblock %}

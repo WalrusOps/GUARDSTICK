@@ -1,0 +1,30 @@
+# script_map.py
+
+SCRIPT_MAP = {
+    'check-malware': ('1-check-malware.py', 'Malicious_Software_Check.txt'),
+    'check-firewall': ('2-check-firewall.py', '2-check-firewall-report.txt'),
+    'check-startup-items': ('3-check-startup-items.py', 'Unusual_Startup_Items.txt'),
+    'scan-unsigned-apps': ('4-scan-unsigned-apps.py', 'Unsigned_Apps.txt'),
+    'check-sip': ('5-check-sip.py', 'SIP_Status_Report.txt'),
+    'check-active-services': ('6-check-active-services.py', 'Active_Services_Daemons.txt'),
+    'scan-browser-extensions': ('7-scan-browser-extensions.py', 'Browser_Extensions.txt'),
+    'review-system-changes': ('8-review-system-changes.py', 'Major_System_Changes.txt'),
+    'check-user-permissions': ('9-check-user-permissions.py', 'User_Permissions_Accounts.txt'),
+    'privacy-settings-check': ('10-privacy-settings-check.py', 'Privacy_Settings_Check.txt'),
+    'check-suspicious-ports': ('13-check-suspicious-ports.py', 'Suspicious_Ports.txt'),
+    'identify-vulnerable-software': ('14-identify-vulnerable-software.py', '14_Vulnerable_Software.txt'),
+    'check-scheduled-tasks': ('15-check-scheduled-tasks.py', 'Scheduled_Tasks_Check.txt'),
+    'application-security': ('16-application_security.py', 'Application_Security_Check.txt'),
+    'analyze-browser-cookies': ('17-analyze-browser-cookies.py', 'Browser_Security_Analysis.txt'),
+    'check-cryptojacking': ('18-check-cryptojacking.py', 'Cryptojacking_Scan.txt'),
+    'check-security-updates': ('19-check-security-updates.py', 'Security_Update_Status.txt'),
+    'snapshot-analysis': ('20-snapshot-analysis.py', 'Snapshot_Analysis.txt'),
+    'ransomware-monitor': ('22-ransomware-monitor.py', 'Ransomware_Monitor_Log.txt'),
+    'collect-systeminfo': ('101-collect-systeminfo.py', 'System_executable_hashes.txt'),
+    'collect-networkconnections': ('102-collect-networkconnections.py', 'Network_Connections.txt'),
+    'collect-processes': ('103-collect-processes.py', 'Running_Processes.txt'),
+    'collect-logs': ('104-collect-logs.py', 'Logs.txt'),
+    'collect-userartifacts': ('105-collect-userartifacts.py', 'User_Artifacts.txt'),
+    'scan-large-old-files': ('106-scan-large-old-files.py', 'Large_Old_Files.txt'),
+    'advanced-network-monitoring': ('108-advanced-network-monitoring.py', 'Advanced_Network_Monitoring.txt')
+}
