@@ -1,0 +1,175 @@
+# GuardStick - macOS Security Analysis Tool
+
+A comprehensive security analysis tool for macOS systems that combines system monitoring, security scanning, and machine learning-based analysis.
+
+## Prerequisites
+
+- macOS 10.15 (Catalina) or newer
+- Python 3.8 or higher 
+- Git installed
+- HuggingFace account and API token ([Get token here](https://huggingface.co/settings/tokens))
+- 16GB RAM minimum (32GB recommended)
+- Administrator access
+
+## Project Structure
+```
+src/
+├── api/
+│   ├── __init__.py
+│   ├── __pycache__/
+│   ├── health_api.py
+│   ├── llm_api.py
+│   ├── logs_api.py
+│   ├── routes_api.py
+│   ├── script_api.py
+│   └── system_api.py
+├── app/
+│   ├── __init__.py
+│   ├── __pycache__/
+│   ├── app.py
+│   └── static/
+│       ├── css/
+│       │   └── styles.css
+│       ├── js/
+│       │   ├── api-service.js
+│       │   ├── async-functions.js
+│       │   ├── llm.js
+│       │   ├── log-analysis.js
+│       │   ├── scripts.js
+│       │   ├── system-status.js
+│       │   └── theme-toggle.js
+│       ├── py/
+│       │   ├── __init__.py
+│       │   ├── __pycache__/
+│       │   └── script_map.py
+│       └── templates/
+│           ├── 404.html
+│           ├── base.html
+│           ├── guide.html
+│           ├── index.html
+│           ├── llm-analysis.html
+│           ├── security-tasks.html
+│           └── system-status.html
+├── data/
+│   ├── Exploit_DB/          # ExploitDB will be downloaded here
+│   └── log_reports/         # Generated reports go here
+├── env/
+│   └── guardstick/          # Virtual environment
+├── models/
+│   ├── cache/
+│   │   └── version.txt
+│   └── Mistral-7B-v0.3/    # Mistral model will be downloaded here
+└── scripts/                 # Security scanning scripts
+```
+
+## Complete Installation Guide
+
+### 1. Initial Setup
+
+```bash
+# Clone the repository and navigate to it
+git clone https://github.com/yourusername/guardstick.git
+cd guardstick
+
+# Activate the virtual environment 
+source src/env/guardstick/bin/activate
+# OR on Windows
+src\env\guardstick\Scripts\activate
+
+# Install requirements in the virtual environment
+pip install -r src/requirements.txt
+
+# Verify pip is using the correct environment
+which pip
+# Should show: src/env/guardstick/bin/pip
+```
+
+### 2. Download ExploitDB
+
+```bash
+# Make sure you're in the project root and virtual environment is active
+echo $VIRTUAL_ENV  # Should show path to src/env/guardstick
+
+# Create required directories if they don't exist
+mkdir -p src/data
+
+# Clone ExploitDB repository
+git clone https://github.com/offsec/exploitdb.git src/data/Exploit_DB
+
+# Verify ExploitDB installation
+ls src/data/Exploit_DB
+# Should show files like: 'README.md', 'files_exploits.csv', etc.
+```
+
+### 3. Download Mistral Model
+
+```bash
+# Make sure virtual environment is still active
+echo $VIRTUAL_ENV  # Should show path to src/env/guardstick
+
+# Create models directory if it doesn't exist
+mkdir -p src/models
+
+# Install huggingface_hub in virtual environment if not installed
+pip install huggingface_hub
+
+# Download Mistral model (replace YOUR_TOKEN with your actual token)
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='mistralai/Mistral-7B-v0.3', local_dir='src/models/Mistral-7B-v0.3', token='YOUR_TOKEN')"
+
+# Verify Mistral model files
+ls src/models/Mistral-7B-v0.3
+# Should show model files like: 'config.json', 'tokenizer.json', etc.
+```
+
+## Starting the Application
+
+1. Ensure you're in the virtual environment:
+```bash
+source src/env/guardstick/bin/activate  # (Linux/MacOS)
+# OR
+src\env\guardstick\Scripts\activate     # (Windows)
+
+# Verify
+echo $VIRTUAL_ENV  # Should show path to src/env/guardstick
+```
+
+2. Start the application:
+```bash
+python src/app/app.py
+```
+
+3. Access the web interface:
+```
+http://localhost:5002
+```
+
+## Troubleshooting
+
+### Virtual Environment Issues:
+- If `pip` is installing globally, ensure you activated the environment
+- Run `which python` to verify you're using the virtual environment Python
+- If needed, recreate the virtual environment:
+  ```bash
+  rm -rf src/env/guardstick
+  python -m venv src/env/guardstick
+  source src/env/guardstick/bin/activate
+  pip install -r src/requirements.txt
+  ```
+
+### ExploitDB Issues:
+- If git clone fails, check your internet connection
+- Ensure you have git installed: `git --version`
+- Try downloading manually from GitHub
+
+### Mistral Model Issues:
+- Verify your HuggingFace token is valid
+- Ensure you have enough disk space (model is several GB)
+- Try downloading the model files manually from HuggingFace
+
+## Support
+
+Create an issue in the GitHub repository for bugs or feature requests.
+
+## License
+
+MIT License - See LICENSE file for details
