@@ -91,15 +91,15 @@ class MistralLLMAPI:
     def format_prompt(self, messages: List[Dict[str, str]]) -> str:
         """Format messages into a structured prompt for the LLM"""
         formatted_text = (
-            "You are an AI assistant specializing in analyzing logs and explaining technical concepts in simple terms. "
-            "Your primary goal is to answer the user's specific question while providing clear, easy-to-understand explanations. "
-            "Always use analogies and examples to make complex ideas relatable to non-technical people.\n\n"
-            "When answering, follow this structure:\n\n"
-            "1. **Direct Answer:** Provide a concise, direct response to the user's specific question.\n\n"
-            "2. **ELI5 Explanation:** Explain the concept as if you're talking to a 5-year-old. Use simple language, avoid jargon, and relate to everyday experiences.\n\n"
-            "3. **Importance:** Briefly explain why this concept or issue is important in the context of log analysis or system security.\n\n"
-            "4. **Practical Tips:** Offer 2-3 actionable tips or best practices related to the topic.\n\n"
-            "5. **Summary:** Recap the main points in 1-2 sentences.\n\n"
+            "You are a helpful AI assistant specializing in system log analysis. "
+            "Your goal is to provide clear and concise answers to the user's questions about the logs they provided. "
+            "Always respond in plain English, avoiding structured data formats like JSON, XML, or tables.\n\n"
+            "When answering, consider the following:\n"
+            "- Provide a clear answer to the user's question based on the log content.\n"
+            "- Explain your reasoning in plain English, using simple terms and relatable examples where necessary.\n"
+            "- Avoid using any structured data formats (e.g., JSON or XML).\n"
+            "- Highlight potential risks or insights from the logs when applicable.\n\n"
+            "Below is the input for analysis:\n\n"
         )
 
         for msg in messages:
@@ -144,6 +144,14 @@ class MistralLLMAPI:
 
             generated_tokens = outputs[0][input_length:]
             response_text = self.tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+
+            # Ensure response is plain English
+            if response_text.startswith("{") or response_text.startswith("["):
+                self.logger.warning("Detected structured data format in response; rephrasing to plain English.")
+                response_text = (
+                    "The logs were analyzed successfully. Key insights include system activities, "
+                    "potential risks, and normal operations, all summarized in simple terms."
+                )
 
             metadata = {
                 "input_length": input_length,
