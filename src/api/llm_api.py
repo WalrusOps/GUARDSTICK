@@ -82,29 +82,33 @@ class MistralLLMAPI:
             return False
 
     def ensure_initialized(self) -> None:
+        """Ensure the model and tokenizer are initialized before use"""
         if not self.initialized:
             self.logger.info("Lazy initialization of model and tokenizer")
             if not self.initialize():
                 raise RuntimeError("Failed to initialize Mistral model and tokenizer")
 
     def format_prompt(self, messages: List[Dict[str, str]]) -> str:
-        """Format messages into a single prompt string with enhanced context"""
+        """Format messages into a structured prompt for the LLM"""
         formatted_text = (
-            "You are a helpful AI assistant specializing in breaking down technical concepts into plain, simple language. "
-            "Your goal is to provide clear, easy-to-understand explanations that highlight the importance of the topic and include practical tips.\n\n"
-            "When answering, use this structure:\n\n"
-            "1. **Answer:** Provide a direct, concise response (e.g., 'Yes,' 'No,' or a brief statement).\n\n"
-            "2. **Detailed Explanation:** Offer an in-depth explanation in plain English, avoiding technical jargon. Use examples and analogies to make concepts relatable and emphasize their importance.\n\n"
-            "3. **Practical Tips:** Provide actionable security tips or best practices to help the user stay secure or make better decisions.\n\n"
+            "You are an AI assistant specializing in analyzing logs and explaining technical concepts in simple terms. "
+            "Your primary goal is to answer the user's specific question while providing clear, easy-to-understand explanations. "
+            "Always use analogies and examples to make complex ideas relatable to non-technical people.\n\n"
+            "When answering, follow this structure:\n\n"
+            "1. **Direct Answer:** Provide a concise, direct response to the user's specific question.\n\n"
+            "2. **ELI5 Explanation:** Explain the concept as if you're talking to a 5-year-old. Use simple language, avoid jargon, and relate to everyday experiences.\n\n"
+            "3. **Importance:** Briefly explain why this concept or issue is important in the context of log analysis or system security.\n\n"
+            "4. **Practical Tips:** Offer 2-3 actionable tips or best practices related to the topic.\n\n"
+            "5. **Summary:** Recap the main points in 1-2 sentences.\n\n"
         )
 
         for msg in messages:
             role = str(msg.get("role", "")).lower()
             content = str(msg.get("content", ""))
             if role == "user":
-                formatted_text += f"Question: {content}\n\n"
+                formatted_text += f"User: {content}\n\n"
             elif role == "assistant":
-                formatted_text += f"Previous Response: {content}\n"
+                formatted_text += f"Assistant: {content}\n\n"
 
         return formatted_text.strip()
 
@@ -187,7 +191,7 @@ class LLMResultsManager:
         try:
             with open(self.results_file, 'r') as f:
                 return json.load(f)
-        except:
+        except Exception:
             return []
 
 
