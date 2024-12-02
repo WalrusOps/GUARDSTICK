@@ -52,6 +52,9 @@ CORS(app)
 app.secret_key = secrets.token_hex(16)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.disabled = True
+
 # Import API modules after Flask app initialization
 from api.routes_api import RoutesAPI
 from api.system_api import SystemAPI
@@ -152,18 +155,6 @@ def health_indicators():
             "status": "error",
             "message": "Unable to fetch health indicators"
         }), 500
-
-# Request logging middleware
-@app.before_request
-def log_request_info():
-    """Log information about each request"""
-    logger.info(f"Request: {request.method} {request.path}")
-
-@app.after_request
-def log_response_info(response):
-    """Log information about each response"""
-    logger.info(f"Response: {response.status_code}")
-    return response
 
 # Initialize APIs
 routes_api = RoutesAPI(app)

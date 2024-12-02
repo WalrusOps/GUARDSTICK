@@ -18,36 +18,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to extract and format the LLM response
     function formatLLMResponse(text) {
-        // Only keep the last occurrence of Answer/Explanation/Tips
-        const sections = text.split(/Question:|Logs:/);
-        const lastSection = sections[sections.length - 1];
+        // Remove any JSON or raw data before "Answer:"
+        const cleanText = text.replace(/^[\s\S]*?(?=Answer:)/g, '');
         
-        // Extract just the LLM response sections
-        const answerMatch = lastSection.match(/Answer:(.*?)(?=Detailed Explanation:|$)/s);
-        const explanationMatch = lastSection.match(/Detailed Explanation:(.*?)(?=Security Tips:|$)/s);
-        const tipsMatch = lastSection.match(/Security Tips:(.*?)$/s);
-        
+        // Split the response into sections
+        const sections = {
+            answer: '',
+            explanation: '',
+            tips: ''
+        };
+
+        // Extract Answer section
+        const answerMatch = cleanText.match(/Answer:(.*?)(?=Detailed Explanation:|$)/s);
+        if (answerMatch) sections.answer = answerMatch[1].trim();
+
+        // Extract Detailed Explanation section
+        const explanationMatch = cleanText.match(/Detailed Explanation:(.*?)(?=Practical Tips:|$)/s);
+        if (explanationMatch) sections.explanation = explanationMatch[1].trim();
+
+        // Extract Practical Tips section
+        const tipsMatch = cleanText.match(/Practical Tips:(.*?)$/s);
+        if (tipsMatch) sections.tips = tipsMatch[1].trim();
+
+        // Create formatted HTML
         return `
             <div class="response-section">
                 <h3>Answer</h3>
-                <p>${answerMatch ? answerMatch[1].trim() : ''}</p>
+                <p>${sections.answer}</p>
             </div>
-            ${explanationMatch ? `
+            ${sections.explanation ? `
                 <div class="response-section">
                     <h3>Detailed Explanation</h3>
-                    <p>${explanationMatch[1].trim()}</p>
+                    <p>${sections.explanation}</p>
                 </div>
             ` : ''}
-            ${tipsMatch ? `
+            ${sections.tips ? `
                 <div class="response-section">
-                    <h3>Security Tips</h3>
-                    <p>${tipsMatch[1].trim()}</p>
+                    <h3>Practical Tips</h3>
+                    <p>${sections.tips}</p>
                 </div>
             ` : ''}
         `;
     }
 
-    // Update step history in UI.
+    // Update step history in UI
     function updateStepHistory(step) {
         const history = document.getElementById('step-history');
         const currentStepValue = document.querySelector('.step-value');
@@ -111,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedLogs = Array.from(document.querySelectorAll('.log-checkbox:checked'))
             .map(cb => cb.value);
         
-        // Reset error state
         errorDiv.style.display = 'none';
         
         if (!question || selectedLogs.length === 0) {
@@ -121,76 +134,77 @@ document.addEventListener('DOMContentLoaded', () => {
                 : 'Please select at least one log for analysis.';
             return;
         }
-
+    
         try {
+            console.group('LLM Analysis Request');
+            console.time('Total Analysis Time');
+            console.log('Question:', question);
+            console.log('Selected Logs:', selectedLogs);
+    
             submitButton.disabled = true;
             llmStatus.style.display = 'block';
             progressContainer.style.display = 'block';
             resultsContainer.style.display = 'none';
             analysisStartTime = Date.now();
             
-            // Clear previous history
             document.getElementById('step-history').innerHTML = '';
-            
-            // Log request details
-            console.log('Sending request:', { question, logs: selectedLogs });
-
-            // Progress steps
-            await updateProgressStatus('Initializing LLM model and configuration...', 5);
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            await updateProgressStatus('Verifying model parameters...', 15);
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            await updateProgressStatus('Loading selected logs...', 30);
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            await updateProgressStatus('Processing log content...', 45);
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            await updateProgressStatus('Running tokenization...', 60);
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            await updateProgressStatus('Executing LLM analysis...', 75);
-            
+    
+            const steps = [
+                ['Initializing LLM model and configuration', 5],
+                ['Verifying model parameters', 15],
+                ['Loading selected logs', 30],
+                ['Processing log content', 45],
+                ['Running tokenization', 60],
+                ['Executing LLM analysis', 75]
+            ];
+    
+            for (const [step, percentage] of steps) {
+                console.log(`Step: ${step} (${percentage}%)`);
+                await updateProgressStatus(`${step}...`, percentage);
+                await new Promise(resolve => setTimeout(resolve, 800));
+            }
+    
             try {
+                console.log('Sending API request...');
                 const response = await apiService.analysis.analyzeLLM({
                     question: question,
                     logs: selectedLogs
                 });
-
-                console.log('API Response:', response);
-
+    
+                console.group('API Response');
+                console.log('Status:', response.status);
+                console.log('Metadata:', response.metadata);
+                console.log('Response Length:', response.response?.length || 0);
+                console.groupEnd();
+    
                 if (response.status === 'success') {
+                    console.log('Processing successful response');
                     await updateProgressStatus('Processing results...', 90);
                     
                     const generationTime = ((Date.now() - analysisStartTime) / 1000).toFixed(2);
+                    console.log('Generation Time:', generationTime, 'seconds');
                     
-                    // Update stats
                     document.getElementById('device-type').textContent = response.metadata.device || 'CPU';
                     document.getElementById('generation-time').textContent = `${generationTime}s`;
                     document.getElementById('input-tokens').textContent = response.metadata.input_length || '0';
                     document.getElementById('output-tokens').textContent = response.metadata.output_length || '0';
                     
-                    // Show stats containers
                     document.getElementById('token-stats').style.display = 'block';
                     document.getElementById('performance-stats').style.display = 'block';
                     
-                    // Show results with formatted response
                     resultsContainer.style.display = 'block';
                     responseElement.innerHTML = formatLLMResponse(response.response);
                     responseElement.classList.remove('error');
                     
-                    // Show technical details
                     metadataContent.innerHTML = `Model Configuration:
-• Temperature: ${response.metadata.temperature}
-• Top-p: ${response.metadata.top_p}
-• Device: ${response.metadata.device}
-• Generation Time: ${generationTime} seconds
-
-Token Usage:
-• Input Length: ${response.metadata.input_length} tokens
-• Output Length: ${response.metadata.output_length} tokens`;
+    • Temperature: ${response.metadata.temperature}
+    • Top-p: ${response.metadata.top_p}
+    • Device: ${response.metadata.device}
+    • Generation Time: ${generationTime} seconds
+    
+    Token Usage:
+    • Input Length: ${response.metadata.input_length} tokens
+    • Output Length: ${response.metadata.output_length} tokens`;
                 } else {
                     throw new Error(response.error || 'Analysis failed');
                 }
@@ -198,7 +212,10 @@ Token Usage:
                 console.error('API Error:', error);
                 throw new Error(`API Error: ${error.message}`);
             }
-
+    
+            console.timeEnd('Total Analysis Time');
+            console.groupEnd();
+    
         } catch (error) {
             console.error('Analysis Error:', error);
             errorDiv.style.display = 'block';

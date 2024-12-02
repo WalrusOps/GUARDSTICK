@@ -1,0 +1,87 @@
+2024-12-02 11:43:18,900 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 11:43:39,102 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 11:43:39,102 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 11:43:39,102 - MistralLLM - [INFO] - Prompt length: 1149 characters
+2024-12-02 11:43:39,103 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 11:43:39,106 - MistralLLM - [INFO] - Input shape: torch.Size([1, 288])
+2024-12-02 11:43:39,106 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 11:43:39,106 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 11:46:34,261 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 11:48:23,767 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 11:48:48,897 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 11:48:48,897 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 11:48:48,897 - MistralLLM - [INFO] - Prompt length: 1149 characters
+2024-12-02 11:48:48,897 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 11:48:48,902 - MistralLLM - [INFO] - Input shape: torch.Size([1, 288])
+2024-12-02 11:48:48,902 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 11:48:48,902 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 11:54:14,153 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 11:54:47,453 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 11:54:47,454 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 11:54:47,454 - MistralLLM - [INFO] - Prompt length: 1149 characters
+2024-12-02 11:54:47,454 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 11:54:47,458 - MistralLLM - [INFO] - Input shape: torch.Size([1, 288])
+2024-12-02 11:54:47,459 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 11:54:47,459 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 11:57:33,004 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 11:57:48,501 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 11:57:48,502 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 11:57:48,502 - MistralLLM - [INFO] - Prompt length: 1149 characters
+2024-12-02 11:57:48,502 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 11:57:48,506 - MistralLLM - [INFO] - Input shape: torch.Size([1, 288])
+2024-12-02 11:57:48,507 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 11:57:48,507 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 11:57:52,531 - MistralLLM - [ERROR] - Error in generate_response: shape '[-1, 289]' is invalid for input of size 288
+2024-12-02 12:04:01,998 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 12:04:24,651 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 12:04:24,651 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 12:04:24,651 - MistralLLM - [INFO] - Prompt length: 1154 characters
+2024-12-02 12:04:24,652 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 12:04:24,656 - MistralLLM - [INFO] - Input shape: torch.Size([1, 288])
+2024-12-02 12:04:24,656 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 12:04:24,656 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 12:22:55,604 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 12:23:15,363 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 12:23:15,363 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 12:23:15,363 - MistralLLM - [INFO] - Prompt length: 1293 characters
+2024-12-02 12:23:15,364 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 12:23:15,370 - MistralLLM - [INFO] - Input shape: torch.Size([1, 316])
+2024-12-02 12:23:15,370 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 12:23:15,370 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 12:54:06,390 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 12:54:06,390 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 12:54:06,390 - MistralLLM - [INFO] - Prompt length: 1293 characters
+2024-12-02 12:54:06,390 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 12:54:06,391 - MistralLLM - [INFO] - Input shape: torch.Size([1, 316])
+2024-12-02 12:54:06,391 - MistralLLM - [INFO] - Moving tensors to cpu
+2024-12-02 12:54:06,391 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 12:57:40,404 - MistralLLM - [INFO] - Initializing Mistral model from /Users/nullbyte/Desktop/GUARDSTICK/src/models/Mistral-7B-v0.3
+2024-12-02 12:58:07,190 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 12:58:07,190 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 12:58:07,191 - MistralLLM - [INFO] - Prompt length: 1425 characters
+2024-12-02 12:58:07,191 - MistralLLM - [INFO] - Prompt exceeds max_length, truncating
+2024-12-02 12:58:07,191 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 12:58:07,196 - MistralLLM - [INFO] - Input shape: torch.Size([1, 142])
+2024-12-02 12:58:07,196 - MistralLLM - [INFO] - Input length after encoding: 142
+2024-12-02 12:58:07,197 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 13:00:51,285 - MistralLLM - [INFO] - Generation took: 164.09 seconds
+2024-12-02 13:00:51,286 - MistralLLM - [INFO] - Total processing time: 164.09 seconds
+2024-12-02 13:00:51,286 - MistralLLM - [INFO] - Text generation complete
+2024-12-02 13:00:51,286 - MistralLLM - [INFO] - Generated text length: 1052 characters
+2024-12-02 13:00:51,286 - MistralLLM - [INFO] - Response generation successful
+2024-12-02 13:06:06,564 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 13:06:06,564 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 13:06:06,564 - MistralLLM - [INFO] - Prompt length: 1425 characters
+2024-12-02 13:06:06,564 - MistralLLM - [INFO] - Prompt exceeds max_length, truncating
+2024-12-02 13:06:06,564 - MistralLLM - [INFO] - Encoding input text
+2024-12-02 13:06:06,565 - MistralLLM - [INFO] - Input shape: torch.Size([1, 142])
+2024-12-02 13:06:06,565 - MistralLLM - [INFO] - Input length after encoding: 142
+2024-12-02 13:06:06,565 - MistralLLM - [INFO] - Starting text generation
+2024-12-02 13:08:38,557 - MistralLLM - [INFO] - Generation took: 151.99 seconds
+2024-12-02 13:08:38,557 - MistralLLM - [INFO] - Total processing time: 151.99 seconds
+2024-12-02 13:08:38,557 - MistralLLM - [INFO] - Text generation complete
+2024-12-02 13:08:38,557 - MistralLLM - [INFO] - Generated text length: 1046 characters
+2024-12-02 13:08:38,557 - MistralLLM - [INFO] - Response generation successful
+2024-12-02 13:09:16,864 - MistralLLM - [INFO] - Starting LLM response generation
+2024-12-02 13:09:16,864 - MistralLLM - [INFO] - Formatting prompt
+2024-12-02 13:09:16,865 - MistralLLM - [ERROR] - Error in generate_response: 'list' object has no attribute 'get'
