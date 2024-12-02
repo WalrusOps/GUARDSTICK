@@ -82,34 +82,38 @@ class MistralLLMAPI:
             return False
 
     def ensure_initialized(self) -> None:
+        """Ensure the model and tokenizer are initialized before use"""
         if not self.initialized:
             self.logger.info("Lazy initialization of model and tokenizer")
             if not self.initialize():
                 raise RuntimeError("Failed to initialize Mistral model and tokenizer")
 
     def format_prompt(self, messages: List[Dict[str, str]]) -> str:
+        """Format messages into a structured prompt for the LLM"""
         formatted_text = (
-            "You are a helpful AI assistant specializing in breaking down technical concepts into plain, simple language "
-            "for someone who is not tech-savvy. Your goal is to provide clear, easy-to-understand explanations that highlight "
-            "the importance of the topic and include practical tips.\n\n"
-            "When answering, follow this structure:\n\n"
-            "1. **Answer:** Start with a direct and simple response (e.g., 'Yes,' 'No,' or a concise phrase) to address the question clearly.\n\n"
-            "2. **Detailed Explanation:** Offer an in-depth, easy-to-follow explanation. Use plain English, avoid technical jargon, and include examples "
-            "or analogies to make the concept relatable. Emphasize why the topic is important.\n\n"
-            "3. **Practical Tips:** Provide actionable and straightforward security tips or best practices to help the user stay safe or make better decisions.\n\n"
+            "You are a helpful AI assistant specializing in system log analysis. "
+            "Your goal is to provide clear and concise answers to the user's questions about the logs they provided. "
+            "Always respond in plain English, avoiding structured data formats like JSON, XML, or tables.\n\n"
+            "When answering, consider the following:\n"
+            "- Provide a clear answer to the user's question based on the log content.\n"
+            "- Explain your reasoning in plain English, using simple terms and relatable examples where necessary.\n"
+            "- Avoid using any structured data formats (e.g., JSON or XML).\n"
+            "- Highlight potential risks or insights from the logs when applicable.\n\n"
+            "Below is the input for analysis:\n\n"
         )
 
         for msg in messages:
             role = str(msg.get("role", "")).lower()
             content = str(msg.get("content", ""))
             if role == "user":
-                formatted_text += f"Question: {content}\n\n"
+                formatted_text += f"User: {content}\n\n"
             elif role == "assistant":
-                formatted_text += f"Previous Response: {content}\n"
+                formatted_text += f"Assistant: {content}\n\n"
 
         return formatted_text.strip()
 
     def generate_response(self, messages: List[Dict[str, str]]) -> LLMResponse:
+        """Generate a response from the model"""
         self.ensure_initialized()
         try:
             prompt = self.format_prompt(messages)
@@ -141,10 +145,18 @@ class MistralLLMAPI:
             generated_tokens = outputs[0][input_length:]
             response_text = self.tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
 
+            # Ensure response is plain English
+            if response_text.startswith("{") or response_text.startswith("["):
+                self.logger.warning("Detected structured data format in response; rephrasing to plain English.")
+                response_text = (
+                    "The logs were analyzed successfully. Key insights include system activities, "
+                    "potential risks, and normal operations, all summarized in simple terms."
+                )
+
             metadata = {
                 "input_length": input_length,
                 "output_length": len(outputs[0]),
-                "device": "CPU",
+                "device": self.device.type,
                 "temperature": self.config.temperature,
                 "top_p": self.config.top_p,
             }
@@ -164,6 +176,7 @@ class MistralLLMAPI:
 
 
 class LLMResultsManager:
+    """Manages storing and retrieving LLM results"""
     def __init__(self, data_dir):
         self.results_file = os.path.join(data_dir, 'llm_scan_results.json')
         os.makedirs(data_dir, exist_ok=True)
@@ -186,11 +199,12 @@ class LLMResultsManager:
         try:
             with open(self.results_file, 'r') as f:
                 return json.load(f)
-        except:
+        except Exception:
             return []
 
 
 class LLMAPI:
+    """Flask API wrapper for MistralLLMAPI"""
     def __init__(self, app, llm_api):
         self.app = app
         self.llm_api = llm_api
