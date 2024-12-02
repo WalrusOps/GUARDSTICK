@@ -6,7 +6,9 @@ rich>=13.0.0
 torch>=2.0.0
 transformers>=4.36.0
 requests>=2.31.0
-
+psutil 
+capy 
+netifaces
 # Database
 sqlite3>=3.35.0
 
@@ -17,7 +19,14 @@ numpy>=1.24.0
 
 # Security
 cryptography>=42.0.0
-
+psutil 
+requests 
+rich 
+netifaces 
+python-nmap 
+scapy 
+pyOpenSSL 
+speedtest-cli
 # Utilities
 python-dotenv>=1.0.0
 pyyaml>=6.0.0
