@@ -88,15 +88,14 @@ class MistralLLMAPI:
                 raise RuntimeError("Failed to initialize Mistral model and tokenizer")
 
     def format_prompt(self, messages: List[Dict[str, str]]) -> str:
+        """Format messages into a single prompt string with enhanced context"""
         formatted_text = (
-            "You are a helpful AI assistant specializing in breaking down technical concepts into plain, simple language "
-            "for someone who is not tech-savvy. Your goal is to provide clear, easy-to-understand explanations that highlight "
-            "the importance of the topic and include practical tips.\n\n"
-            "When answering, follow this structure:\n\n"
-            "1. **Answer:** Start with a direct and simple response (e.g., 'Yes,' 'No,' or a concise phrase) to address the question clearly.\n\n"
-            "2. **Detailed Explanation:** Offer an in-depth, easy-to-follow explanation. Use plain English, avoid technical jargon, and include examples "
-            "or analogies to make the concept relatable. Emphasize why the topic is important.\n\n"
-            "3. **Practical Tips:** Provide actionable and straightforward security tips or best practices to help the user stay safe or make better decisions.\n\n"
+            "You are a helpful AI assistant specializing in breaking down technical concepts into plain, simple language. "
+            "Your goal is to provide clear, easy-to-understand explanations that highlight the importance of the topic and include practical tips.\n\n"
+            "When answering, use this structure:\n\n"
+            "1. **Answer:** Provide a direct, concise response (e.g., 'Yes,' 'No,' or a brief statement).\n\n"
+            "2. **Detailed Explanation:** Offer an in-depth explanation in plain English, avoiding technical jargon. Use examples and analogies to make concepts relatable and emphasize their importance.\n\n"
+            "3. **Practical Tips:** Provide actionable security tips or best practices to help the user stay secure or make better decisions.\n\n"
         )
 
         for msg in messages:
@@ -110,6 +109,7 @@ class MistralLLMAPI:
         return formatted_text.strip()
 
     def generate_response(self, messages: List[Dict[str, str]]) -> LLMResponse:
+        """Generate a response from the model"""
         self.ensure_initialized()
         try:
             prompt = self.format_prompt(messages)
@@ -144,7 +144,7 @@ class MistralLLMAPI:
             metadata = {
                 "input_length": input_length,
                 "output_length": len(outputs[0]),
-                "device": "CPU",
+                "device": self.device.type,
                 "temperature": self.config.temperature,
                 "top_p": self.config.top_p,
             }
@@ -164,6 +164,7 @@ class MistralLLMAPI:
 
 
 class LLMResultsManager:
+    """Manages storing and retrieving LLM results"""
     def __init__(self, data_dir):
         self.results_file = os.path.join(data_dir, 'llm_scan_results.json')
         os.makedirs(data_dir, exist_ok=True)
@@ -191,6 +192,7 @@ class LLMResultsManager:
 
 
 class LLMAPI:
+    """Flask API wrapper for MistralLLMAPI"""
     def __init__(self, app, llm_api):
         self.app = app
         self.llm_api = llm_api

@@ -2,175 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GuardStick Documentation</title>
+    <title>GuardStick User Guide</title>
     <style>
-        
         /* Modern documentation styling */
-        :root {
-            /* Color Palette */
-            --background: #F5F7FA;
-            --card-bg: #FFFFFF;
-            --sidebar-bg: #1F2937;
-            --sidebar-text: #D1D5DB;
-            --text: #2E3A59;
-            --text-secondary: #7B8794;
-            --accent: #3B82F6;
-            --accent-hover: #2563EB;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --border: rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
+            color: #2E3A59;
             display: flex;
             min-height: 100vh;
+            margin: 0;
         }
-
-        /* Sidebar Styling */
         .sidebar {
             width: 250px;
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            position: sticky;
-            top: 0;
-            min-height: 100vh;
+            background-color: #1F2937;
+            color: #D1D5DB;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
         }
-
         .sidebar h3 {
             font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
-        
-
         .sidebar ul {
             list-style: none;
+            padding-left: 0;
         }
-
         .sidebar a {
+            color: #D1D5DB;
             text-decoration: none;
-            color: var(--sidebar-text);
-            font-size: 1rem;
+            display: block;
             padding: 10px;
             border-radius: 8px;
-            transition: background 0.3s ease;
+            margin-bottom: 5px;
         }
-        
         .sidebar a:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
-        .sidebar a.active {
-            background-color: #374151;
-            color: white;
-        }
-        /* Main Content Styling */
         .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 2rem 3rem;
-            max-width: calc(100% - var(--sidebar-width));
-            width: 100%;
+            margin-left: 270px;
+            padding: 20px;
+            max-width: 800px;
+            margin-bottom: 50px;
         }
-
-        .content {
-            max-width: 900px;
-            margin: 0 auto;
+        h1, h2, h3 {
+            color: #1F2937;
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-            line-height: 1.3;
-        }
-
         h1 {
-            font-size: 2.5rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
+            font-size: 2rem;
+            margin-top: 1.5rem;
         }
-
         h2 {
-            font-size: 1.875rem;
-        }
-
-        h3 {
             font-size: 1.5rem;
+            margin-top: 1.5rem;
         }
-
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+        }
         p {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
-
-        /* Code Blocks */
         pre {
-            background: var(--code-bg);
-            padding: 1rem;
-            border-radius: 0.5rem;
+            background: #F5F7FA;
+            padding: 10px;
             overflow-x: auto;
-            margin: 1.5rem 0;
+            border-radius: 5px;
+            margin-bottom: 1rem;
         }
-
         code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.9em;
-            background: var(--code-bg);
-            padding: 0.2em 0.4em;
-            border-radius: 0.25rem;
+            background: #F5F7FA;
+            padding: 2px 4px;
+            border-radius: 4px;
         }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 0.75rem;
-            text-align: left;
-        }
-
-        th {
-            background: #f8fafc;
-        }
-
-        /* Lists */
         ul, ol {
-            margin: 1.25rem 0;
-            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            margin-left: 20px;
         }
-
         li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 5px;
         }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sidebar {
-                display: none;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                max-width: 100%;
-                padding: 1rem;
-            }
+        a {
+            color: #3B82F6;
         }
     </style>
 </head>
@@ -178,196 +93,249 @@
     <nav class="sidebar">
         <h3>Contents</h3>
         <ul>
-            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
-            <li><a href="#overview">Overview</a></li>
+            <li><a href="#introduction">Introduction</a></li>
             <li><a href="#installation">Installation</a></li>
-            <li><a href="#features">Key Features</a></li>
+            <li><a href="#key-features">Key Features</a></li>
             <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#components">System Components</a></li>
-            <li><a href="#usage">Using GuardStick</a></li>
-            <li><a href="#api-reference">API Reference</a></li>
-            <li><a href="#security">Security Features</a></li>
+            <li><a href="#system-components">System Components</a></li>
+            <li><a href="#using-guardstick">Using GuardStick</a></li>
+            <li><a href="#detailed-scan-guide">Detailed Scan Guide</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
             <li><a href="#troubleshooting">Troubleshooting</a></li>
             <li><a href="#faq">FAQ</a></li>
         </ul>
     </nav>
-
     <main class="main-content">
         <div class="content">
-            <h1 id="overview">GuardStick Security Monitoring System</h1>
+            <h1 id="introduction">Introduction</h1>
+            <p><strong>GuardStick</strong> is a powerful security tool designed to safeguard your system through continuous monitoring and analysis. It offers an intuitive web interface for easy navigation and provides detailed insights into your system's security posture.</p>
             
-            <p>GuardStick is a comprehensive security monitoring and analysis system that combines real-time system monitoring, automated security tasks, and AI-powered analysis to protect your system.</p>
-
-            <h2 id="installation">Installation</h2>
-            
-            <h3>Prerequisites</h3>
+            <h1 id="installation">Installation</h1>
+            <h2 id="prerequisites">Prerequisites</h2>
+            <p>Before installing GuardStick, ensure your system meets the following requirements:</p>
             <ul>
-                <li>Python 3.8 or higher</li>
-                <li>16GB RAM minimum (for LLM operations)</li>
-                <li>50GB free disk space</li>
-                <li>Unix-based operating system (macOS or Linux)</li>
+                <li><strong>Python</strong> 3.8 or higher</li>
+                <li><strong>16GB RAM</strong> minimum (for AI model operations)</li>
+                <li><strong>50GB</strong> free disk space</li>
+                <li><strong>Unix-based operating system</strong> (macOS or Linux)</li>
             </ul>
-
-            <h3>Quick Start</h3>
+            <h2 id="quick-start-guide">Quick Start Guide</h2>
+            <p>Follow these steps to install and run GuardStick:</p>
             <pre><code># Clone the repository
 git clone https://github.com/yourusername/guardstick.git
 cd guardstick
 
-# Create virtual environment
+# Create a virtual environment
 python -m venv venv
 source venv/bin/activate  # On Unix/macOS
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Start the application
-python src/app.py</code></pre>
-
-            <h2 id="features">Key Features</h2>
-            
-            <h3>Real-time Monitoring</h3>
-            <p>GuardStick provides continuous monitoring of:</p>
+# Start the application with admin privileges
+sudo python src/app/app.py</code></pre>
+            <h1 id="key-features">Key Features</h1>
             <ul>
-                <li>CPU usage and performance metrics</li>
-                <li>Memory utilization and management</li>
-                <li>Disk usage and storage analysis</li>
-                <li>Network connections and traffic patterns</li>
+                <li><strong>Real-time Monitoring</strong>: Keep track of CPU, memory, disk usage, and network connections.</li>
+                <li><strong>Security Analysis</strong>: Perform automated security scans, malware detection, and system integrity checks.</li>
+                <li><strong>AI-Powered Insights</strong>: Utilize the Mistral-7B language model for log analysis, threat detection, and security recommendations.</li>
+                <li><strong>User-Friendly Interface</strong>: Access all features through an intuitive web interface.</li>
             </ul>
-
-            <h3>Security Analysis</h3>
-            <ul>
-                <li>Automated security scans</li>
-                <li>Malware detection</li>
-                <li>System integrity verification</li>
-                <li>Firewall management</li>
-                <li>Privacy protection features</li>
-            </ul>
-
-            <h3>AI-Powered Insights</h3>
-            <p>Leveraging the Mistral-7B language model for:</p>
-            <ul>
-                <li>Log analysis and interpretation</li>
-                <li>Threat detection and assessment</li>
-                <li>Security recommendations</li>
-                <li>Pattern recognition in system behavior</li>
-            </ul>
-
-            <h2 id="getting-started">Getting Started</h2>
-            
-            <h3>Basic Configuration</h3>
-            <p>Create a .env file in your project root:</p>
+            <h1 id="getting-started">Getting Started</h1>
+            <h2 id="basic-configuration">Basic Configuration</h2>
+            <p>Create a <code>.env</code> file in the project root directory with the following content:</p>
             <pre><code>FLASK_APP=src/app.py
 FLASK_ENV=development
 MODEL_PATH=/models/Mistral-7B-v0.3
 PORT=5002</code></pre>
-
-            <h3>First Run</h3>
-            <p>After installation, access the web interface at:</p>
+            <p>This configuration sets up the Flask application, environment, AI model path, and the port number for the web interface.</p>
+            <h2 id="first-run">First Run</h2>
+            <p>After installation, start the application:</p>
+            <pre><code>sudo python src/app/app.py</code></pre>
+            <p>Then, open your web browser and navigate to:</p>
             <pre><code>http://localhost:5002</code></pre>
-
-            <h2 id="components">System Components</h2>
-            
-            <h3>Dashboard</h3>
-            <p>The main dashboard provides:</p>
+            <p>You should see the GuardStick Dashboard.</p>
+            <h1 id="system-components">System Components</h1>
+            <h2 id="dashboard">Dashboard</h2>
+            <p>The <strong>Dashboard</strong> provides an overview of your system's status, including:</p>
             <ul>
-                <li>System status overview</li>
-                <li>Real-time metrics</li>
-                <li>Recent security events</li>
-                <li>Quick action buttons</li>
+                <li><strong>System Status Overview</strong>: Quick glance at CPU, memory, disk, and network usage.</li>
+                <li><strong>Real-Time Metrics</strong>: Live graphs showing performance data over time.</li>
+                <li><strong>Recent Security Events</strong>: List of the latest security scans and findings.</li>
+                <li><strong>Quick Actions</strong>: Buttons to run immediate scans or access critical features.</li>
             </ul>
-
-            <h3>Security Tasks</h3>
-            <p>Automated security checks including:</p>
+            <h2 id="security-tasks">Security Tasks</h2>
+            <p>Under <strong>Security Tasks</strong>, you can perform various security checks:</p>
             <ul>
-                <li>Malware scanning</li>
-                <li>Firewall verification</li>
-                <li>Privacy checks</li>
-                <li>System configuration analysis</li>
+                <li><strong>Malware Scanning</strong>: Detect and remove malicious software.</li>
+                <li><strong>Firewall Verification</strong>: Ensure your firewall is active and properly configured.</li>
+                <li><strong>Privacy Checks</strong>: Review application permissions and privacy settings.</li>
+                <li><strong>System Configuration Analysis</strong>: Analyze system settings for potential vulnerabilities.</li>
             </ul>
-
-            <h2 id="usage">Using GuardStick</h2>
-            
-            <h3>Running Security Scans</h3>
-            <p>Access the Security Tasks page to:</p>
+            <h2 id="log-analysis">Log Analysis</h2>
+            <p>The <strong>Log Analysis</strong> section allows you to:</p>
+            <ul>
+                <li>View detailed logs generated by security scans.</li>
+                <li>Search and filter logs based on keywords or date ranges.</li>
+                <li>Download or delete logs as needed.</li>
+            </ul>
+            <h2 id="llm-analysis">LLM Analysis</h2>
+            <p><strong>LLM Analysis</strong> leverages AI to provide insights:</p>
+            <ul>
+                <li>Interpret complex log data.</li>
+                <li>Identify patterns and anomalies.</li>
+                <li>Receive security recommendations based on log analysis.</li>
+            </ul>
+            <h1 id="using-guardstick">Using GuardStick</h1>
+            <h2 id="running-security-scans">Running Security Scans</h2>
             <ol>
-                <li>Select desired security checks</li>
-                <li>Configure scan parameters</li>
-                <li>Execute scans</li>
-                <li>View and export results</li>
+                <li>Navigate to <strong>Security Tasks</strong> from the sidebar.</li>
+                <li>Select the desired scan by clicking on its card.</li>
+                <li>Click the <strong>Run Scan</strong> button.</li>
+                <li>Monitor the scan status; it updates to <strong>Complete</strong> when finished.</li>
+                <li>View the results directly below the scan or in the <strong>Log Analysis</strong> section.</li>
             </ol>
-
-            <h3>Log Analysis</h3>
-            <p>Use the Log Analysis feature to:</p>
+            <h2 id="analyzing-logs">Analyzing Logs</h2>
             <ul>
-                <li>View system and security logs</li>
-                <li>Filter and search log entries</li>
-                <li>Export log reports</li>
-                <li>Analyze patterns and anomalies</li>
+                <li>Access <strong>Log Analysis</strong> from the sidebar.</li>
+                <li>Use the search bar to find specific logs.</li>
+                <li>Click on a log file to view its contents.</li>
+                <li>Apply filters or search within the log for specific entries.</li>
             </ul>
-
-            <h2 id="api-reference">API Reference</h2>
-            
-            <h3>System Status Endpoints</h3>
-            <pre><code>GET /api/system-status
-GET /api/check-firewall
-GET /api/service-status</code></pre>
-
-            <h3>Security Endpoints</h3>
-            <pre><code>POST /api/execute
-GET /api/security-events</code></pre>
-
-            <h3>Analysis Endpoints</h3>
-            <pre><code>POST /api/analyze_llm
-GET /api/get-logs
-POST /api/logs/delete
-GET /api/logs/download/{filename}</code></pre>
-
-            <h2 id="security">Security Features</h2>
-            
-            <h3>System Protection</h3>
+            <h2 id="ai-powered-insights">AI-Powered Insights</h2>
+            <ol>
+                <li>Go to <strong>LLM Analysis</strong> to use AI for interpreting logs.</li>
+                <li>Select logs for analysis using the checkboxes.</li>
+                <li>Type in your question or request in plain language.</li>
+                <li>Click <strong>Analyze</strong> and wait for the AI-generated insights.</li>
+            </ol>
+            <h1 id="detailed-scan-guide">Detailed Scan Guide</h1>
+            <h2 id="core-security-scans">Core Security Scans</h2>
+            <h3 id="malware-check">1. Malware Check (<code>1-check-malware.py</code>)</h3>
+            <p><strong>What it does:</strong></p>
             <ul>
-                <li>SIP (System Integrity Protection) monitoring</li>
-                <li>Firewall management</li>
-                <li>FileVault encryption status</li>
-                <li>Application verification</li>
+                <li>Scans applications for known malware signatures.</li>
+                <li>Verifies application integrity using cryptographic hashes.</li>
+                <li>Identifies tampered or malicious software.</li>
             </ul>
-
-            <h3>Network Security</h3>
+            <p><strong>Why it's important:</strong></p>
             <ul>
-                <li>Connection monitoring</li>
-                <li>Port scanning</li>
-                <li>Traffic analysis</li>
-                <li>Suspicious activity detection</li>
+                <li>Protects against harmful software that can compromise your system.</li>
+                <li>Ensures that all applications are legitimate and safe to use.</li>
+                <li>Detects potential security threats before they cause damage.</li>
             </ul>
-
-            <h2 id="troubleshooting">Troubleshooting</h2>
-            
-            <h3>Common Issues</h3>
+            <p><strong>When to use:</strong></p>
             <ul>
-                <li>API connection errors</li>
-                <li>Model loading issues</li>
-                <li>Permission problems</li>
-                <li>Resource constraints</li>
+                <li><strong>Daily</strong>, especially after installing new software.</li>
+                <li>When experiencing unusual system behavior.</li>
+                <li>After downloading files from untrusted sources.</li>
             </ul>
-
-            <h2 id="faq">Frequently Asked Questions</h2>
-            
-            <h3>General Questions</h3>
-            <p><strong>Q: How often should I run security scans?</strong><br>
-            A: We recommend running basic security scans daily and comprehensive scans weekly.</p>
-
-            <p><strong>Q: Can I customize security checks?</strong><br>
-            A: Yes, you can modify existing scripts or add new ones in the scripts directory.</p>
-
-            <p><strong>Q: How are logs stored?</strong><br>
-            A: Logs are stored in the data/log_reports directory with encryption for sensitive data.</p>
-
-            <h3>Technical Questions</h3>
-            <p><strong>Q: What permissions are required?</strong><br>
-            A: GuardStick needs administrator privileges for system-level operations.</p>
-
-            <p><strong>Q: Can I use a different LLM model?</strong><br>
-            A: Yes, you can modify the LLM configuration in llm_api.py to use different models.</p>
+            <h3 id="firewall-analysis">2. Firewall Analysis (<code>2-check-firewall.py</code>)</h3>
+            <p><strong>What it does:</strong></p>
+            <ul>
+                <li>Checks the status of your firewall.</li>
+                <li>Reviews application network permissions.</li>
+                <li>Identifies open ports and potential vulnerabilities.</li>
+            </ul>
+            <p><strong>Why it's important:</strong></p>
+            <ul>
+                <li>Blocks unauthorized access to your system.</li>
+                <li>Manages which applications can send and receive data.</li>
+                <li>Strengthens your network security posture.</li>
+            </ul>
+            <p><strong>When to use:</strong></p>
+            <ul>
+                <li><strong>Weekly</strong>.</li>
+                <li>After installing network-related applications.</li>
+                <li>When experiencing network connectivity issues.</li>
+            </ul>
+            <!-- Include similar detailed explanations for scans 3 through 20 -->
+            <h2 id="data-collection-scans">Data Collection Scans</h2>
+            <h3 id="system-information-collection">101. System Information Collection (<code>101-collect-systeminfo.py</code>)</h3>
+            <p><strong>What it does:</strong></p>
+            <ul>
+                <li>Gathers detailed system hardware and software information.</li>
+                <li>Creates a comprehensive system profile for auditing.</li>
+            </ul>
+            <p><strong>Why it's important:</strong></p>
+            <ul>
+                <li>Provides a baseline for system audits.</li>
+                <li>Assists in troubleshooting hardware and software issues.</li>
+                <li>Documents system configuration for future reference.</li>
+            </ul>
+            <p><strong>When to use:</strong></p>
+            <ul>
+                <li><strong>Monthly</strong>.</li>
+                <li>After making hardware changes.</li>
+                <li>Before major system updates.</li>
+            </ul>
+            <!-- Include detailed explanations for scans 102 through 108 -->
+            <h1 id="best-practices">Best Practices</h1>
+            <h2 id="regular-monitoring">Regular Monitoring</h2>
+            <ul>
+                <li><strong>Daily</strong>: Check the <strong>Dashboard</strong> and <strong>System Status</strong> for any anomalies.</li>
+                <li><strong>Weekly</strong>: Review recent logs and security events.</li>
+                <li><strong>Monthly</strong>: Perform comprehensive system audits using all available scans.</li>
+            </ul>
+            <h2 id="security-scans">Security Scans</h2>
+            <ul>
+                <li>Run <strong>Malware Check</strong> daily to catch threats early.</li>
+                <li>Schedule <strong>Firewall Analysis</strong> and <strong>Startup Items Check</strong> weekly.</li>
+                <li>Perform all <strong>Core Security Scans</strong> monthly for thorough security assessments.</li>
+            </ul>
+            <h2 id="log-management">Log Management</h2>
+            <ul>
+                <li>Regularly review logs in the <strong>Log Analysis</strong> section.</li>
+                <li>Archive important logs for long-term storage.</li>
+                <li>Delete outdated or unnecessary logs to conserve disk space.</li>
+            </ul>
+            <h2 id="llm-analysis-1">LLM Analysis</h2>
+            <ul>
+                <li>Use specific, clear questions when requesting AI insights.</li>
+                <li>Combine multiple logs for comprehensive analysis.</li>
+                <li>Validate AI recommendations with your own knowledge or consult a professional.</li>
+            </ul>
+            <h1 id="troubleshooting">Troubleshooting</h1>
+            <h2 id="common-issues">Common Issues</h2>
+            <h3>Scan Failures</h3>
+            <ul>
+                <li>Ensure you have the necessary permissions (run scans with admin rights).</li>
+                <li>Verify that you have sufficient disk space and system resources.</li>
+                <li>Check logs for error messages and consult the FAQ or support.</li>
+            </ul>
+            <h3>LLM Issues</h3>
+            <ul>
+                <li>Confirm the AI model is correctly installed and configured.</li>
+                <li>Ensure your system has enough RAM (16GB minimum recommended).</li>
+                <li>Restart the application if the AI module becomes unresponsive.</li>
+            </ul>
+            <h3>Performance Problems</h3>
+            <ul>
+                <li>Close unnecessary applications to free up system resources.</li>
+                <li>Consider upgrading hardware if performance issues persist.</li>
+                <li>Regularly clear old logs and temporary files.</li>
+            </ul>
+            <h3>Connection Errors</h3>
+            <ul>
+                <li>Ensure the application is running and listening on the correct port (<code>5002</code> by default).</li>
+                <li>Check your firewall settings to allow connections to the application.</li>
+                <li>Use <code>localhost</code> or <code>127.0.0.1</code> in your browser to access the application.</li>
+            </ul>
+            <h1 id="faq">FAQ</h1>
+            <h2 id="general-questions">General Questions</h2>
+            <p><strong>Q:</strong> <em>How often should I run security scans?</em></p>
+            <p><strong>A:</strong> It's recommended to run basic scans daily and comprehensive scans weekly or monthly, depending on your usage patterns.</p>
+            <p><strong>Q:</strong> <em>Can I customize security checks?</em></p>
+            <p><strong>A:</strong> Yes, you can modify existing scripts or add new ones in the <code>scripts</code> directory to tailor the scans to your needs.</p>
+            <p><strong>Q:</strong> <em>Is GuardStick compatible with Windows?</em></p>
+            <p><strong>A:</strong> Currently, GuardStick is designed for Unix-based systems like macOS and Linux.</p>
+            <h2 id="technical-questions">Technical Questions</h2>
+            <p><strong>Q:</strong> <em>What permissions are required to run GuardStick?</em></p>
+            <p><strong>A:</strong> Administrator privileges are needed for system-level operations and to perform comprehensive security scans.</p>
+            <p><strong>Q:</strong> <em>Can I use a different LLM model?</em></p>
+            <p><strong>A:</strong> Yes, you can configure a different model by modifying the <code>MODEL_PATH</code> in the <code>.env</code> file and updating the <code>llm_api.py</code> script accordingly.</p>
+            <p><strong>Q:</strong> <em>How are logs stored and secured?</em></p>
+            <p><strong>A:</strong> Logs are stored in the <code>data/log_reports</code> directory. Sensitive data is encrypted to protect your privacy.</p>
         </div>
     </main>
 </body>
