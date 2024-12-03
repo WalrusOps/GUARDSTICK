@@ -8,3 +8,11 @@
 src/api/__pycache__/llm_api.cpython-311.pyc
 src/api/__pycache__/system_api.cpython-311.pyc
 src/app/llm_debug.log
+src/utils/unit_tests.py
+src/app/static/py/unit_tests.py
+src/api/llm_api.py
+src/app/llm.log
+src/api/__pycache__/llm_api.cpython-311.pyc
+src/paper-structure.md
+src/app/llm.log
+src/api/llm_api.py
