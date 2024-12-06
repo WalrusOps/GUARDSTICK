@@ -19,3 +19,6 @@ src/api/llm_api.py
 .DS_Store
 llm.log
 
+src/app/llm.log
+src/app/static/.DS_Store
+src/.DS_Store
