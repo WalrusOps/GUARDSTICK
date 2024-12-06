@@ -25,3 +25,14 @@ src/.DS_Store
 *.log
 src/app/llm.log
 src/.DS_Store
+src/app/llm.log
+src/app/app.py
+src/app/.DS_Store
+src/api/__pycache__/system_api.cpython-311.pyc
+src/api/__pycache__/script_api.cpython-311.pyc
+src/api/__pycache__/routes_api.cpython-311.pyc
+src/api/__pycache__/logs_api.cpython-311.pyc
+src/api/__pycache__/llm_api.cpython-311.pyc
+src/api/__pycache__/__init__.cpython-311.pyc
+src/api/__init__.py
+src/app/static/py/__pycache__/script_map.cpython-311.pyc

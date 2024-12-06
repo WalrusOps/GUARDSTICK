@@ -13,7 +13,7 @@
     <div class="sidebar">
         <h3>GuardStick</h3>
         <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Dashboard</a>
-        <a href="{{ url_for('llm_analysis_page') }}" {% if request.endpoint == 'llm_analysis_page' %}class="active"{% endif %}>AI Analysis</a>
+        <a href="{{ url_for('llm_analysis_page') }}" {% if request.endpoint == 'llm_analysis_page' %}class="active"{% endif %}>LLM Analysis</a>
         <a href="{{ url_for('guide') }}" {% if request.endpoint == 'guide' %}class="active"{% endif %}>Guide</a>
     </div>
 
@@ -23,7 +23,7 @@
         <div class="header">
             <div>
                 <h1 class="logo">{% block page_title %}Welcome to GuardStick{% endblock %}</h1>
-                <p class="subtitle">{% block subtitle %}Your Local AI-Powered Security Companion{% endblock %}</p>
+                <p class="subtitle">{% block subtitle %}Your AI Security Companion{% endblock %}</p>
             </div>
         </div>
 
