@@ -3,7 +3,7 @@
 /src/models
 
 /src/env
-
+__pycache__/
 /src/api/__pycache__
 src/api/__pycache__/llm_api.cpython-311.pyc
 src/api/__pycache__/system_api.cpython-311.pyc
