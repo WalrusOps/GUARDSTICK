@@ -23,3 +23,5 @@ src/app/llm.log
 src/app/static/.DS_Store
 src/.DS_Store
 *.log
+src/app/llm.log
+src/.DS_Store
